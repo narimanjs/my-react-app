@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './CostForm.css'
-const CostForm = () => {
+const CostForm = (props) => {
   const [inputName, setInputName] = useState('')
   const [inputAmount, setInputAmount] = useState('')
   const [inputDate, setInputDate] = useState('')
@@ -50,7 +50,11 @@ const CostForm = () => {
       amount: inputAmount,
       date: new Date(inputDate),
     }
-    console.log(costData)
+
+    props.onSaveCostData(costData)
+    setInputName('')
+    setInputAmount('')
+    setInputDate('')
   }
 
   return (
@@ -58,11 +62,12 @@ const CostForm = () => {
       <div className="new-cost__controls">
         <div className="new-cost__control">
           <label>Название</label>
-          <input type="text" onChange={nameChangeHandler} />
+          <input type="text" value={inputName} onChange={nameChangeHandler} />
         </div>
         <div className="new-cost__control">
           <label>Сумма</label>
           <input
+            value={inputAmount}
             onChange={amountChangeHandler}
             type="number"
             min="0.01"
@@ -72,6 +77,7 @@ const CostForm = () => {
         <div className="new-cost__control">
           <label>Дата</label>
           <input
+            value={inputDate}
             onChange={dateChangeHandler}
             type="date"
             min="2021-01-01"
